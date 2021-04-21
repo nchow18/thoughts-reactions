@@ -10,7 +10,7 @@ const {
 // /api/thoughts/<user-id>
 router
   .route('/:userId')
-  .post(addUser);
+  .post(addThought);
 
 // /api/thoughts/<user-id>/<comment-id>
 router
