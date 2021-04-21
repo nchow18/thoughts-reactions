@@ -1,37 +1,35 @@
-const { Pizza } = require('../models');
+const { User } = require('../models');
 
-const pizzaController = {
-    // get all pizzas
-    getAllPizza(req, res) {
-      Pizza.find({})
+const userController = {
+    getAllUsers(req, res) {
+      User.find({})
         .populate({
-          path: 'comments',
+          path: 'thoughts',
           select: '-__v'
         })
         .select('-__v')
         .sort({ _id: -1 })
-        .then(dbPizzaData => res.json(dbPizzaData))
+        .then(dbUserData => res.json(dbUserData))
         .catch(err => {
           console.log(err);
           res.status(400).json(err);
         });
     },
   
-    // get one pizza by id
-    getPizzaById({ params }, res) {
-      Pizza.findOne({ _id: params.id })
+    // get one USER by id
+    getUserById({ params }, res) {
+      User.findOne({ _id: params.id })
         .populate({
           path: 'comments',
           select: '-__v'
         })
         .select('-__v')
-        .then(dbPizzaData => {
-          // If no pizza is found, send 404
-          if (!dbPizzaData) {
-            res.status(404).json({ message: 'No pizza found with this id!' });
+        .then(dbUserData => {
+          if (!dbUserData) {
+            res.status(404).json({ message: 'No user found with this id!' });
             return;
           }
-          res.json(dbPizzaData);
+          res.json(dbUserData);
         })
         .catch(err => {
           console.log(err);
@@ -39,16 +37,16 @@ const pizzaController = {
         });
     },
 
-    // createPizza
-    createPizza({ body }, res) {
-        Pizza.create(body)
-        .then(dbPizzaData => res.json(dbPizzaData))
+    // create new user
+    createUser({ body }, res) {
+        User.create(body)
+        .then(dbUserData => res.json(dbUserData))
         .catch(err => res.status(400).json(err));
     },
 
-    // update pizza by id
-    updatePizza({ params, body }, res) {
-      Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
+    // update user by id
+    updateUser({ params, body }, res) {
+      User.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
         .then(dbPizzaData => {
           if (!dbPizzaData) {
             res.status(404).json({ message: 'No pizza found with this id!' });
