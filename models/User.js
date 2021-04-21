@@ -1,7 +1,7 @@
 const { Schema, model } = require('mongoose');
 const dateFormat = require('../utils/dateFormat');
 
-const userSchema = new Schema(
+const UserSchema = new Schema(
   {
     userName: {
       type: String,
@@ -23,6 +23,12 @@ const userSchema = new Schema(
         type: Schema.Types.ObjectId,
         ref: 'Thought'
       }
+    ],
+    friends: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Friend'
+      }
     ]
   },
   {
@@ -34,11 +40,21 @@ const userSchema = new Schema(
   }
 );
 
+// // get total count of thoughts
+// UserSchema.virtual('thoughtCount').get(function() {
+//   return this.thoughts.reduce((total, thoughts) => total + thoughts.length + 1, 0);
+// });
+
 // get total count of thoughts
-userSchema.virtual('thoughtCount').get(function() {
-  return this.thoughts.reduce((total, thoughts) => total + thoughts.reactions.length + 1, 0);
+UserSchema.virtual('thoughtCount').get(function() {
+  return this.thoughts.length;
 });
 
-const User = model('User', userSchema);
+// get total count of friends
+UserSchema.virtual('friendCount').get(function() {
+  return this.friends.length;
+});
+
+const User = model('User', UserSchema);
 
 module.exports = User;

@@ -57,7 +57,7 @@ const ThoughtSchema = new Schema(
 )
 
 // virtual for total reaction count
-ThoughtSchema.virtual('reactionount').get(function() {
+ThoughtSchema.virtual('reactionCount').get(function() {
     return this.reactions.length;
 });
 

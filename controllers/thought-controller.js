@@ -1,11 +1,11 @@
 const { Thought, User } = require('../models');
 
 const thoughtController = {
-  
+
   // add THOUGHT to USER
   addThought({ params, body }, res) {
     console.log(body);
-    Comment.create(body)
+    Thought.create(body)
       .then(({ _id }) => {
         return User.findOneAndUpdate(
           { _id: params.userId },
@@ -23,11 +23,11 @@ const thoughtController = {
       .catch(err => res.json(err));
   },
 
-  // add REACTION to THOUGHT
+  // update REACTION to THOUGHT
   addReaction({ params, body }, res) {
     Thought.findOneAndUpdate(
       { _id: params.thoughtId },
-      { $push: { replies: body } },
+      { $push: { reactions: body } },
       { new: true, runValidators: true }
     )
       .then(dbUserData => {

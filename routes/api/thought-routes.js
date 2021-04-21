@@ -12,15 +12,15 @@ router
   .route('/:userId')
   .post(addThought);
 
-// /api/thoughts/<user-id>/<comment-id>
+// /api/thoughts/<user-id>/<thought-id>
 router
   .route('/:userId/:thoughtId')
   .put(addReaction)
   .delete(removeThought);
 
-// /api/thoughts/<user-id>/<comment-id>/<reaction-id>
+// /api/thoughts/<user-id>/<thought-id>/<reaction-id>
 router
-.route('/:userId/:thoughtId/:reactionId')
+  .route('/:userId/:thoughtId/:reactionId')
   .delete(removeReaction);
 
 module.exports = router;
